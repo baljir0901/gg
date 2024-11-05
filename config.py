@@ -1,6 +1,12 @@
+import os
+from flask import request, g
+
+# Define available languages
+LANGUAGES = ['en', 'ja', 'mn', 'vi']
+
 class Config:
     # Flask app configuration
-    SECRET_KEY = 'your_secret_key_here'  # Change this to a secure random key
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
     
     # Email configuration
     EMAIL = 'baljir0901@gmail.com'
@@ -10,24 +16,7 @@ class Config:
     EXCEL_FILE = 'recruitment_data.xlsx'
     
     # Supported languages
-    LANGUAGES = {
-        'ja': {
-            'name': '日本語',
-            'flag': '🇯🇵'
-        },
-        'en': {
-            'name': 'English',
-            'flag': '🇬🇧'
-        },
-        'mn': {
-            'name': 'Монгол',
-            'flag': '🇲🇳'
-        },
-        'vi': {
-            'name': 'Tiếng Việt',
-            'flag': '🇻🇳'
-        }
-    }
+    LANGUAGES = LANGUAGES
     
     # Default language
     DEFAULT_LANGUAGE = 'ja'

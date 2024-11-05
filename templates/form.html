@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>採用応募フォーム ({{ t.title }})</title>
+    <title>{{ translations.title }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
@@ -11,7 +11,7 @@
         {% if language == 'ja' %}
             <h1>採用応募フォーム</h1>
         {% else %}
-            <h1>{{ translations['title'] }}</h1>
+            <h1>{{ translations.title }}</h1>
         {% endif %}
         <form method="POST" action="{{ url_for('submit') }}">
             
@@ -20,14 +20,14 @@
                 {% if language == 'ja' %}
                     <h2>個人情報</h2>
                 {% else %}
-                    <h2>{{ translations['section1'] }}</h2>
+                    <h2>{{ translations.section1 }}</h2>
                 {% endif %}
                 
                 <div class="form-group">
                     {% if language == 'ja' %}
                         <label for="name">氏名:</label>
                     {% else %}
-                        <label for="name">{{ translations['name'] }}:</label>
+                        <label for="name">{{ translations.name }}:</label>
                     {% endif %}
                     <input type="text" id="name" name="name" required>
                 </div>
@@ -42,7 +42,7 @@
                             <option value="other">その他</option>
                         </select>
                     {% else %}
-                        <label for="gender">{{ translations['gender'] }}:</label>
+                        <label for="gender">{{ translations.gender }}:</label>
                         <select id="gender" name="gender" required>
                             <option value="">選択してください ({{ t.select_option }})</option>
                             <option value="male">男性 ({{ t.gender_male }})</option>

@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for, session
-from config import Config
+from flask import Flask, render_template, request, redirect, url_for, session, g
+from config import Config, LANGUAGES
 import pandas as pd
 from datetime import datetime
 import os
@@ -24,7 +24,7 @@ def language_select():
 
 @app.route('/form/<lang>')
 def form(lang):
-    if lang not in ['ja', 'en', 'mn', 'vi']:
+    if lang not in LANGUAGES:
         return redirect(url_for('form', lang='ja'))
     g.lang = lang
     
