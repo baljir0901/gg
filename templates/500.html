@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="error-page">
+        <h1>500</h1>
+        <p>
+            {% if language == 'ja' %}
+                サーバーエラーが発生しました
+            {% else %}
+                {{ translations.server_error }}
+            {% endif %}
+        </p>
+        <a href="{{ url_for('form', lang=language) }}">
+            {% if language == 'ja' %}
+                フォームに戻る
+            {% else %}
+                {{ translations.return_to_form }}
+            {% endif %}
+        </a>
+    </div>
+{% endblock %} 

@@ -1,163 +1,359 @@
+{% extends "base.html" %}
+
+{% block content %}
 <!DOCTYPE html>
 <html lang="{{ language }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ translations.title }}</title>
+    <title>採用応募フォーム{% if language != 'ja' %} / {{ translations.title }}{% endif %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    
 </head>
 <body>
     <div class="container">
-        {% if language == 'ja' %}
-            <h1>採用応募フォーム</h1>
-        {% else %}
-            <h1>{{ translations.title }}</h1>
-        {% endif %}
+        <!-- Header Section -->
+        <header class="site-header">
+            <div class="header-container">
+                <div class="logo-section">
+                    <img src="{{ url_for('static', filename='images/company-logo.png') }}" alt="Company Logo" class="company-logo">
+                </div>
+                <div class="title-section">
+                    <h1 class="main-title">採用応募フォーム</h1>
+                </div>
+                <div class="language-selector">
+                    <div class="language-options">
+                        <a href="?lang=ja" class="lang-option {% if language == 'ja' %}active{% endif %}">
+                            <img src="{{ url_for('static', filename='images/flags/jp.png') }}" alt="日本語">
+                            <span>日本語</span>
+                        </a>
+                        <a href="?lang=en" class="lang-option {% if language == 'en' %}active{% endif %}">
+                            <img src="{{ url_for('static', filename='images/flags/en.png') }}" alt="English">
+                            <span>English</span>
+                        </a>
+                        <a href="?lang=mn" class="lang-option {% if language == 'mn' %}active{% endif %}">
+                            <img src="{{ url_for('static', filename='images/flags/mn.png') }}" alt="Монгол">
+                            <span>Монгол</span>
+                        </a>
+                        <a href="?lang=vi" class="lang-option {% if language == 'vi' %}active{% endif %}">
+                            <img src="{{ url_for('static', filename='images/flags/vi.png') }}" alt="Tiếng Việt">
+                            <span>Tiếng Việt</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <h1>
+            {% if language == 'ja' %}
+                採用応募フォーム
+            {% else %}
+                採用応募フォーム / {{ translations.title }}
+            {% endif %}
+        </h1>
+        
         <form method="POST" action="{{ url_for('submit') }}">
-            
             <!-- Section 1: Personal Information -->
             <section class="form-section">
-                {% if language == 'ja' %}
-                    <h2>個人情報</h2>
-                {% else %}
-                    <h2>{{ translations.section1 }}</h2>
-                {% endif %}
+                <h2>
+                    {% if language == 'ja' %}
+                        個人情報
+                    {% else %}
+                        個人情報 / {{ translations.section1 }}
+                    {% endif %}
+                </h2>
                 
-                <div class="form-group">
-                    {% if language == 'ja' %}
-                        <label for="name">氏名:</label>
-                    {% else %}
-                        <label for="name">{{ translations.name }}:</label>
-                    {% endif %}
-                    <input type="text" id="name" name="name" required>
-                </div>
-
-                <div class="form-group">
-                    {% if language == 'ja' %}
-                        <label for="gender">性別:</label>
-                        <select id="gender" name="gender" required>
-                            <option value="">選択してください</option>
-                            <option value="male">男性</option>
-                            <option value="female">女性</option>
-                            <option value="other">その他</option>
-                        </select>
-                    {% else %}
-                        <label for="gender">{{ translations.gender }}:</label>
-                        <select id="gender" name="gender" required>
-                            <option value="">選択してください ({{ t.select_option }})</option>
-                            <option value="male">男性 ({{ t.gender_male }})</option>
-                            <option value="female">女性 ({{ t.gender_female }})</option>
-                            <option value="other">その他 ({{ t.gender_other }})</option>
-                        </select>
-                    {% endif %}
-                </div>
-
-                <div class="form-group">
-                    <label for="furigana">フリガナ ({{ t.furigana }}):</label>
-                    <input type="text" id="furigana" name="furigana" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="romaji">ローマ字 ({{ t.romaji }}):</label>
-                    <input type="text" id="romaji" name="romaji" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="dob">生年月日 ({{ t.dob }}):</label>
-                    <input type="date" id="dob" name="dob" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="age">年齢 ({{ t.age }}):</label>
-                    <input type="number" id="age" name="age" min="16" max="100" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="gender">性別 ({{ t.gender }}):</label>
-                    <select id="gender" name="gender" required>
-                        <option value="">選択してください ({{ t.select_option }})</option>
-                        <option value="male">男性 ({{ t.gender_male }})</option>
-                        <option value="female">女性 ({{ t.gender_female }})</option>
-                        <option value="other">その他 ({{ t.gender_other }})</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="family_in_japan">日本在住の家族 ({{ t.family_jp }}):</label>
-                    <select id="family_in_japan" name="family_in_japan" required>
-                        <option value="">選択してください ({{ t.select_option }})</option>
-                        <option value="no">いいえ ({{ t.family_no }})</option>
-                        <option value="yes">はい ({{ t.family_yes }})</option>
-                    </select>
-                    <div id="family_details_group" style="display: none;">
-                        <label for="family_details">家族の詳細 ({{ t.family_details }}):</label>
-                        <textarea id="family_details" name="family_details"></textarea>
+                <div class="form-group name-group">
+                    <label>
+                        {% if language == 'ja' %}
+                            氏名:
+                        {% else %}
+                            氏名 / {{ translations.name }}:
+                        {% endif %}
+                    </label>
+                    <div class="name-fields">
+                        <div>
+                            <input type="text" id="surname" name="surname" required placeholder="{% if language == 'ja' %}姓{% else %}姓 / {{ translations.surname }}{% endif %}">
+                        </div>
+                        <div>
+                            <input type="text" id="firstname" name="firstname" required placeholder="{% if language == 'ja' %}名{% else %}名 / {{ translations.firstname }}{% endif %}">
+                        </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="nearest_station">最寄り駅 ({{ t.nearest_station }}):</label>
+                    <label for="gender">
+                        {% if language == 'ja' %}
+                            性別:
+                        {% else %}
+                            性別 / {{ translations.gender }}:
+                        {% endif %}
+                    </label>
+                    <select id="gender" name="gender" required>
+                        {% if language == 'ja' %}
+                            <option value="">選択してください</option>
+                            <option value="male">男性</option>
+                            <option value="female">女性</option>
+                        {% else %}
+                            <option value="">選択してください / {{ translations.select_option }}</option>
+                            <option value="male">男性 / {{ translations.gender_male }}</option>
+                            <option value="female">女性 / {{ translations.gender_female }}</option>
+                        {% endif %}
+                    </select>
+                </div>
+
+                <div class="form-group name-group">
+                    <label>
+                        {% if language == 'ja' %}
+                            フリガナ:
+                        {% else %}
+                            フリガナ / {{ translations.furigana }}:
+                        {% endif %}
+                    </label>
+                    <div class="name-fields">
+                        <div>
+                            <input type="text" id="furigana_surname" name="furigana_surname" required placeholder="{% if language == 'ja' %}セイ{% else %}セイ / {{ translations.surname }}{% endif %}">
+                        </div>
+                        <div>
+                            <input type="text" id="furigana_firstname" name="furigana_firstname" required placeholder="{% if language == 'ja' %}メイ{% else %}メイ / {{ translations.firstname }}{% endif %}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group name-group">
+                    <label>
+                        {% if language == 'ja' %}
+                            ローマ字:
+                        {% else %}
+                            ローマ字 / {{ translations.romaji }}:
+                        {% endif %}
+                    </label>
+                    <div class="name-fields">
+                        <div>
+                            <input type="text" id="romaji_surname" name="romaji_surname" required placeholder="{% if language == 'ja' %}セイ{% else %}セイ / {{ translations.surname }}{% endif %}">
+                        </div>
+                        <div>
+                            <input type="text" id="romaji_firstname" name="romaji_firstname" required placeholder="{% if language == 'ja' %}メイ{% else %}メイ / {{ translations.firstname }}{% endif %}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="dob">
+                        {% if language == 'ja' %}
+                            生年月日:
+                        {% else %}
+                            生年月日 / {{ translations.dob }}:
+                        {% endif %}
+                    </label>
+                    <input type="date" id="dob" name="dob" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="age">
+                        {% if language == 'ja' %}
+                            年齢:
+                        {% else %}
+                            年齢 / {{ translations.age }}:
+                        {% endif %}
+                    </label>
+                    <input type="number" id="age" name="age" min="16" max="100" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="family_in_japan">
+                        {% if language == 'ja' %}
+                            日本在住の家族:
+                        {% else %}
+                            日本在住の家族 / {{ translations.family_jp }}:
+                        {% endif %}
+                    </label>
+                    <select id="family_in_japan" name="family_in_japan" required>
+                        {% if language == 'ja' %}
+                            <option value="">選択してください</option>
+                            <option value="no">いいえ</option>
+                            <option value="yes">はい</option>
+                        {% else %}
+                            <option value="">選択してください / {{ translations.select_option }}</option>
+                            <option value="no">いいえ / {{ translations.family_no }}</option>
+                            <option value="yes">はい / {{ translations.family_yes }}</option>
+                        {% endif %}
+                    </select>
+                    <div id="family_details_group" style="display: none;">
+                        <div class="form-group">
+                            <label>
+                                {% if language == 'ja' %}
+                                    ※有の場合同居の有無:
+                                {% else %}
+                                    ※有の場合同居の有無 / {{ translations.living_together }}:
+                                {% endif %}
+                            </label>
+                            <select name="living_together" required>
+                                {% if language == 'ja' %}
+                                    <option value="">選択してください</option>
+                                    <option value="yes">はい</option>
+                                    <option value="no">いいえ</option>
+                                {% else %}
+                                    <option value="">選択してください / {{ translations.select_option }}</option>
+                                    <option value="yes">はい / {{ translations.yes }}</option>
+                                    <option value="no">いいえ / {{ translations.no }}</option>
+                                {% endif %}
+                            </select>
+                        </div>
+                        
+                        <div class="family-member-details">
+                            <div class="form-group">
+                                <input type="text" name="family_relation" placeholder="{% if language == 'ja' %}続柄{% else %}続柄 / {{ translations.relation }}{% endif %}">
+                                <input type="text" name="family_name" placeholder="{% if language == 'ja' %}名前{% else %}名前 / {{ translations.name }}{% endif %}">
+                                <input type="date" name="family_dob" placeholder="{% if language == 'ja' %}生年月日{% else %}生年月日 / {{ translations.dob }}{% endif %}">
+                                <input type="text" name="family_occupation" placeholder="{% if language == 'ja' %}勤務先・通学先{% else %}勤務先・通学先 / {{ translations.occupation }}{% endif %}">
+                            </div>
+                            <button type="button" class="add-family-member">+ {% if language == 'ja' %}家族を追加{% else %}家族を追加 / {{ translations.add_family }}{% endif %}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="nearest_station">
+                        {% if language == 'ja' %}
+                            最寄り駅:
+                        {% else %}
+                            最寄り駅 / {{ translations.nearest_station }}:
+                        {% endif %}
+                    </label>
                     <input type="text" id="nearest_station" name="nearest_station" required>
                 </div>
             </section>
 
             <!-- Section 2: Contact Information -->
             <section class="form-section">
-                <h2>連絡先 ({{ t.section2 }})</h2>
+                <h2>
+                    {% if language == 'ja' %}
+                        連絡先
+                    {% else %}
+                        連絡先 / {{ translations.section2 }}
+                    {% endif %}
+                </h2>
                 
                 <div class="form-group">
-                    <label for="address">住所 ({{ t.address }}):</label>
+                    <label for="address">
+                        {% if language == 'ja' %}
+                            住所:
+                        {% else %}
+                            住所 / {{ translations.address }}:
+                        {% endif %}
+                    </label>
                     <input type="text" id="address" name="address" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="phone">携帯電話 ({{ t.phone }}):</label>
+                    <label for="phone">
+                        {% if language == 'ja' %}
+                            携帯電話:
+                        {% else %}
+                            携帯電話 / {{ translations.phone }}:
+                        {% endif %}
+                    </label>
                     <input type="tel" id="phone" name="phone" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="email">メールアドレス ({{ t.email }}):</label>
+                    <label for="email">
+                        {% if language == 'ja' %}
+                            メールアドレス:
+                        {% else %}
+                            メールアドレス / {{ translations.email }}:
+                        {% endif %}
+                    </label>
                     <input type="email" id="email" name="email" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="social_media">SNS ({{ t.social_media }}):</label>
+                    <label for="social_media">
+                        {% if language == 'ja' %}
+                            SNS:
+                        {% else %}
+                            SNS / {{ translations.social_media }}:
+                        {% endif %}
+                    </label>
                     <input type="text" id="social_media" name="social_media">
                 </div>
             </section>
 
             <!-- Section 3: Interview Preferences -->
             <section class="form-section">
-                <h2>面接希望日 ({{ t.section3 }})</h2>
+                <h2>
+                    {% if language == 'ja' %}
+                        面接希望日
+                    {% else %}
+                        面接希望日 / {{ translations.section3 }}
+                    {% endif %}
+                </h2>
                 
                 <div class="interview-preferences">
                     <div class="form-group">
-                        <label for="preferred_interview_date1">第一希望日 ({{ t.interview_date1 }}):</label>
+                        <label for="preferred_interview_date1">
+                            {% if language == 'ja' %}
+                                第一希望日:
+                            {% else %}
+                                第一希望日 / {{ translations.interview_date1 }}:
+                            {% endif %}
+                        </label>
                         <input type="date" id="preferred_interview_date1" name="preferred_interview_date1" required>
                         <select name="preferred_time1" required>
-                            <option value="">選択してください ({{ t.select_option }})</option>
-                            <option value="morning">午前 ({{ t.time_morning }})</option>
-                            <option value="afternoon">午後 ({{ t.time_afternoon }})</option>
+                            {% if language == 'ja' %}
+                                <option value="">選択してください</option>
+                                <option value="morning">午前</option>
+                                <option value="afternoon">午後</option>
+                            {% else %}
+                                <option value="">選択してください / {{ translations.select_option }}</option>
+                                <option value="morning">午    / {{ translations.time_morning }}</option>
+                                <option value="afternoon">午後 / {{ translations.time_afternoon }}</option>
+                            {% endif %}
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="preferred_interview_date2">第二希望日 ({{ t.interview_date2 }}):</label>
+                        <label for="preferred_interview_date2">
+                            {% if language == 'ja' %}
+                                第二希望日:
+                            {% else %}
+                                第二希望日 / {{ translations.interview_date2 }}:
+                            {% endif %}
+                        </label>
                         <input type="date" id="preferred_interview_date2" name="preferred_interview_date2" required>
                         <select name="preferred_time2" required>
-                            <option value="">選択してください ({{ t.select_option }})</option>
-                            <option value="morning">午前 ({{ t.time_morning }})</option>
-                            <option value="afternoon">午後 ({{ t.time_afternoon }})</option>
+                            {% if language == 'ja' %}
+                                <option value="">選択してください</option>
+                                <option value="morning">午前</option>
+                                <option value="afternoon">午後</option>
+                            {% else %}
+                                <option value="">選択してください / {{ translations.select_option }}</option>
+                                <option value="morning">午前 / {{ translations.time_morning }}</option>
+                                <option value="afternoon">午後 / {{ translations.time_afternoon }}</option>
+                            {% endif %}
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="preferred_interview_date3">第三希望日 ({{ t.interview_date3 }}):</label>
+                        <label for="preferred_interview_date3">
+                            {% if language == 'ja' %}
+                                第三希望日:
+                            {% else %}
+                                第三希望日 / {{ translations.interview_date3 }}:
+                            {% endif %}
+                        </label>
                         <input type="date" id="preferred_interview_date3" name="preferred_interview_date3" required>
                         <select name="preferred_time3" required>
-                            <option value="">選択してください ({{ t.select_option }})</option>
-                            <option value="morning">午前 ({{ t.time_morning }})</option>
-                            <option value="afternoon">午後 ({{ t.time_afternoon }})</option>
+                            {% if language == 'ja' %}
+                                <option value="">選択してください</option>
+                                <option value="morning">午前</option>
+                                <option value="afternoon">午後</option>
+                            {% else %}
+                                <option value="">選択してください / {{ translations.select_option }}</option>
+                                <option value="morning">午前 / {{ translations.time_morning }}</option>
+                                <option value="afternoon">午後 / {{ translations.time_afternoon }}</option>
+                            {% endif %}
                         </select>
                     </div>
                 </div>
@@ -165,155 +361,270 @@
 
             <!-- Section 4: Education -->
             <section class="form-section">
-                <h2>学歴 ({{ t.section4 }})</h2>
+                <h2>
+                    {% if language == 'ja' %}
+                        学歴
+                    {% else %}
+                        学歴 / {{ translations.section4 }}
+                    {% endif %}
+                </h2>
                 
-                <div class="education-entry">
-                    <div class="form-group">
-                        <label for="education_start">入学年月 ({{ t.education_start }}):</label>
-                        <input type="month" id="education_start" name="education_start" required>
-                    </div>
+                <div class="education-entries">
+                    <div class="education-entry">
+                        <div class="form-group">
+                            <label>
+                                {% if language == 'ja' %}
+                                    学校区分:
+                                {% else %}
+                                    学校区分 / {{ translations.education_type }}:
+                                {% endif %}
+                            </label>
+                            <select name="education_type[]" required>
+                                {% if language == 'ja' %}
+                                    <option value="">選択してください</option>
+                                    <option value="high_school">高校</option>
+                                    <option value="vocational">専門学校</option>
+                                    <option value="college">短期大学</option>
+                                    <option value="university">大学</option>
+                                    <option value="graduate">大学院</option>
+                                {% else %}
+                                    <option value="">選択してください / {{ translations.select_option }}</option>
+                                    <option value="high_school">高校 / {{ translations.high_school }}</option>
+                                    <option value="vocational">専門学校 / {{ translations.vocational }}</option>
+                                    <option value="college">短期大学 / {{ translations.college }}</option>
+                                    <option value="university">大学 / {{ translations.university }}</option>
+                                    <option value="graduate">大学院 / {{ translations.graduate }}</option>
+                                {% endif %}
+                            </select>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="education_end">卒業年月 ({{ t.education_end }}):</label>
-                        <input type="month" id="education_end" name="education_end" required>
-                    </div>
+                        <div class="form-group">
+                            <input type="month" name="education_start[]" required>
+                            <span>～</span>
+                            <input type="month" name="education_end[]" required>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="school_name">学校名 ({{ t.school_name }}):</label>
-                        <input type="text" id="school_name" name="school_name" required>
-                    </div>
+                        <div class="form-group">
+                            <input type="text" name="school_name[]" required placeholder="{% if language == 'ja' %}学校名{% else %}学校名 / {{ translations.school_name }}{% endif %}">
+                        </div>
 
-                    <div class="form-group">
-                        <label for="department">学部 ({{ t.department }}):</label>
-                        <input type="text" id="department" name="department" required>
+                        <div class="form-group">
+                            <input type="text" name="major[]" placeholder="{% if language == 'ja' %}学部・学科名{% else %}学部・学科名 / {{ translations.major }}{% endif %}">
+                        </div>
+
+                        <div class="form-group">
+                            <select name="graduation_status[]" required>
+                                {% if language == 'ja' %}
+                                    <option value="">選択してください</option>
+                                    <option value="graduated">卒業</option>
+                                    <option value="expected">卒業見込</option>
+                                    <option value="withdrawn">中退</option>
+                                {% else %}
+                                    <option value="">選択してください / {{ translations.select_option }}</option>
+                                    <option value="graduated">卒業 / {{ translations.graduated }}</option>
+                                    <option value="expected">卒業見込 / {{ translations.expected }}</option>
+                                    <option value="withdrawn">中退 / {{ translations.withdrawn }}</option>
+                                {% endif %}
+                            </select>
+                        </div>
                     </div>
+                    <button type="button" class="add-education">+ {% if language == 'ja' %}学歴を追加{% else %}学歴を追加 / {{ translations.add_education }}{% endif %}</button>
                 </div>
             </section>
 
             <!-- Section 5: Work Experience -->
             <section class="form-section">
-                <h2>職歴 ({{ t.section5 }})</h2>
+                <h2>
+                    {% if language == 'ja' %}
+                        職歴
+                    {% else %}
+                        職歴 / {{ translations.section5 }}
+                    {% endif %}
+                </h2>
                 
-                <div class="work-entry">
-                    <div class="form-group">
-                        <label for="work_start">入社年月 ({{ t.work_start }}):</label>
-                        <input type="month" id="work_start" name="work_start" required>
-                    </div>
+                <div class="work-entries">
+                    <div class="work-entry">
+                        <div class="form-group">
+                            <input type="month" name="work_start[]">
+                            <span>～</span>
+                            <input type="month" name="work_end[]">
+                        </div>
 
-                    <div class="form-group">
-                        <label for="work_end">退社年月 ({{ t.work_end }}):</label>
-                        <input type="month" id="work_end" name="work_end" required>
-                    </div>
+                        <div class="form-group">
+                            <input type="text" name="company_name[]" placeholder="{% if language == 'ja' %}会社名{% else %}会社名 / {{ translations.company_name }}{% endif %}">
+                        </div>
 
-                    <div class="form-group">
-                        <label for="company_name">会社名 ({{ t.company_name }}):</label>
-                        <input type="text" id="company_name" name="company_name" required>
-                    </div>
+                        <div class="form-group">
+                            <input type="text" name="job_title[]" placeholder="{% if language == 'ja' %}職種{% else %}職種 / {{ translations.job_title }}{% endif %}">
+                        </div>
 
-                    <div class="form-group">
-                        <label for="job_description">仕事内容 ({{ t.job_description }}):</label>
-                        <textarea id="job_description" name="job_description" required></textarea>
+                        <div class="form-group">
+                            <textarea name="job_description[]" placeholder="{% if language == 'ja' %}職務内容{% else %}職務内容 / {{ translations.job_description }}{% endif %}"></textarea>
+                        </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="reason_leaving">退社理由 ({{ t.reason_leaving }}):</label>
-                        <textarea id="reason_leaving" name="reason_leaving" required></textarea>
-                    </div>
+                    <button type="button" class="add-work">+ {% if language == 'ja' %}職歴を追加{% else %}職歴を追加 / {{ translations.add_work }}{% endif %}</button>
                 </div>
             </section>
 
-            <!-- Section 6: Qualifications -->
-            <section class="form-section">
-                <h2>資 ({{ t.section6 }})</h2>
-                
-                <div class="form-group">
-                    <label for="jp_license">日本運転免許 ({{ t.jp_license }}):</label>
-                    <select id="jp_license" name="jp_license" required>
-                        <option value="">選択してください ({{ t.select_option }})</option>
-                        <option value="no">いいえ ({{ t.family_no }})</option>
-                        <option value="yes">はい ({{ t.family_yes }})</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="mn_license">モンゴル運転免許 ({{ t.mn_license }}):</label>
-                    <select id="mn_license" name="mn_license" required>
-                        <option value="">選択してください ({{ t.select_option }})</option>
-                        <option value="no">いいえ ({{ t.family_no }})</option>
-                        <option value="yes">はい ({{ t.family_yes }})</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="vn_license">ベトナム運転免許 ({{ t.vn_license }}):</label>
-                    <select id="vn_license" name="vn_license" required>
-                        <option value="">選択してください ({{ t.select_option }})</option>
-                        <option value="no">いいえ ({{ t.family_no }})</option>
-                        <option value="yes">はい ({{ t.family_yes }})</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="japanese_level">日本語能力 ({{ t.japanese_level }}):</label>
-                    <select id="japanese_level" name="japanese_level" required>
-                        <option value="">選択してください ({{ t.select_level }})</option>
-                        <option value="N1">N1</option>
-                        <option value="N2">N2</option>
-                        <option value="N3">N3</option>
-                        <option value="N4">N4</option>
-                        <option value="N5">N5</option>
-                    </select>
-                </div>
-            </section>
+            <!-- Section 6: Language Skills with No JLPT option -->
+            <div class="form-group">
+                <label for="japanese_level">
+                    {% if language == 'ja' %}
+                        日本語レベル:
+                    {% else %}
+                        日本語レベル / {{ translations.japanese_level }}:
+                    {% endif %}
+                </label>
+                <select id="japanese_level" name="japanese_level" required>
+                    {% if language == 'ja' %}
+                        <option value="">選択してください</option>
+                        <option value="no_jlpt">JLPT未受験</option>
+                        <option value="N1">JLPT N1</option>
+                        <option value="N2">JLPT N2</option>
+                        <option value="N3">JLPT N3</option>
+                        <option value="N4">JLPT N4</option>
+                        <option value="N5">JLPT N5</option>
+                    {% else %}
+                        <option value="">選択してください / {{ translations.select_option }}</option>
+                        <option value="no_jlpt">JLPT未受験 / {{ translations.no_jlpt }}</option>
+                        <option value="N1">JLPT N1</option>
+                        <option value="N2">JLPT N2</option>
+                        <option value="N3">JLPT N3</option>
+                        <option value="N4">JLPT N4</option>
+                        <option value="N5">JLPT N5</option>
+                    {% endif %}
+                </select>
+            </div>
 
             <!-- Section 7: Visa Status -->
             <section class="form-section">
-                <h2>在留資格 ({{ t.section7 }})</h2>
+                <h2>
+                    {% if language == 'ja' %}
+                        在留資格
+                    {% else %}
+                        在留資格 / {{ translations.section7 }}
+                    {% endif %}
+                </h2>
                 
                 <div class="form-group">
-                    <label for="visa_type">在留資格種類 ({{ t.visa_type }}):</label>
+                    <label for="visa_type">
+                        {% if language == 'ja' %}
+                            在留資格種類:
+                        {% else %}
+                            在留資格種類 / {{ translations.visa_type }}:
+                        {% endif %}
+                    </label>
                     <select id="visa_type" name="visa_type" required>
-                        <option value="">選択してください ({{ t.select_option }})</option>
-                        <option value="permanent">永住者</option>
-                        <option value="work">就労ビザ</option>
-                        <option value="student">留学</option>
-                        <option value="dependent">家族滞在</option>
-                        <option value="other">その他</option>
+                        {% if language == 'ja' %}
+                            <option value="">選択し   ください</option>
+                            <option value="permanent">永住者</option>
+                            <option value="engineer">技術・人文知識・国際業務</option>
+                            <option value="specified_skilled">特定技能</option>
+                            <option value="highly_skilled">高度専門職</option>
+                            <option value="spouse_japanese">日本人の配偶者等</option>
+                            <option value="spouse_permanent">永住者の配偶者等</option>
+                            <option value="dependent">家族滞在</option>
+                            <option value="student">留学</option>
+                            <option value="trainee">研修</option>
+                            <option value="designated">特定活動</option>
+                            <option value="other">その他</option>
+                        {% else %}
+                            <option value="">選択してください / {{ translations.select_option }}</option>
+                            <option value="permanent">永住者 / {{ translations.visa_permanent }}</option>
+                            <option value="engineer">技術・人文知識・国際業務 / {{ translations.visa_engineer }}</option>
+                            <option value="specified_skilled">特定技能 / {{ translations.visa_specified_skilled }}</option>
+                            <option value="highly_skilled">高度専門職 / {{ translations.visa_highly_skilled }}</option>
+                            <option value="spouse_japanese">日本人の配偶者等 / {{ translations.visa_spouse_japanese }}</option>
+                            <option value="spouse_permanent">永住者の配偶者等 / {{ translations.visa_spouse_permanent }}</option>
+                            <option value="dependent">家族滞在 / {{ translations.visa_dependent }}</option>
+                            <option value="student">留学 / {{ translations.visa_student }}</option>
+                            <option value="trainee">研修 / {{ translations.visa_trainee }}</option>
+                            <option value="designated">特定活動 / {{ translations.visa_designated }}</option>
+                            <option value="other">その他 / {{ translations.visa_other }}</option>
+                        {% endif %}
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="visa_expiry">在留期限 ({{ t.visa_expiry }}):</label>
+                    <label for="visa_expiry">
+                        {% if language == 'ja' %}
+                            在留期限:
+                        {% else %}
+                            在留期限 / {{ translations.visa_expiry }}:
+                        {% endif %}
+                    </label>
                     <input type="date" id="visa_expiry" name="visa_expiry" required>
                 </div>
             </section>
 
             <!-- Section 8: Health -->
             <section class="form-section">
-                <h2>健康状態 ({{ t.section8 }})</h2>
+                <h2>
+                    {% if language == 'ja' %}
+                        健康状態
+                    {% else %}
+                        健康状態 / {{ translations.section8 }}
+                    {% endif %}
+                </h2>
                 
                 <div class="form-group">
-                    <label for="medical_history">今までにケガや病気、手術した事ありますか？ ({{ t.medical_history }}):</label>
+                    <label for="medical_history">
+                        {% if language == 'ja' %}
+                            今までにケガや病気、手術した事ありますか？:
+                        {% else %}
+                            今までにケガや病気、手術した事ありますか？ / {{ translations.medical_history }}:
+                        {% endif %}
+                    </label>
                     <select id="medical_history" name="medical_history" required>
-                        <option value="">選択してください ({{ t.select_option }})</option>
-                        <option value="no">いいえ ({{ t.family_no }})</option>
-                        <option value="yes">はい ({{ t.family_yes }})</option>
+                        {% if language == 'ja' %}
+                            <option value="">選択してください</option>
+                            <option value="no">いいえ</option>
+                            <option value="yes">はい</option>
+                        {% else %}
+                            <option value="">選択してください / {{ translations.select_option }}</option>
+                            <option value="no">いいえ / {{ translations.no }}</option>
+                            <option value="yes">はい / {{ translations.yes }}</option>
+                        {% endif %}
                     </select>
                     <div id="medical_details_group" style="display: none;">
-                        <label for="medical_details">詳細 ({{ t.medical_details }}):</label>
+                        <label for="medical_details">
+                            {% if language == 'ja' %}
+                                詳細:
+                            {% else %}
+                                詳細 / {{ translations.medical_details }}:
+                            {% endif %}
+                        </label>
                         <textarea id="medical_details" name="medical_details"></textarea>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="allergies">アレルギー ({{ t.allergies }}):</label>
+                    <label for="allergies">
+                        {% if language == 'ja' %}
+                            アレルギー:
+                        {% else %}
+                            アレルギー / {{ translations.allergies }}:
+                        {% endif %}
+                    </label>
                     <select id="allergies" name="allergies" required>
-                        <option value="">選択してください ({{ t.select_option }})</option>
-                        <option value="no">いいえ ({{ t.family_no }})</option>
-                        <option value="yes">はい ({{ t.family_yes }})</option>
+                        {% if language == 'ja' %}
+                            <option value="">選択してください</option>
+                            <option value="no">いいえ</option>
+                            <option value="yes">はい</option>
+                        {% else %}
+                            <option value="">選択してください / {{ translations.select_option }}</option>
+                            <option value="no">いいえ / {{ translations.no }}</option>
+                            <option value="yes">はい / {{ translations.yes }}</option>
+                        {% endif %}
                     </select>
                     <div id="allergy_details_group" style="display: none;">
-                        <label for="allergy_details">アレルギーの詳細 ({{ t.allergy_details }}):</label>
+                        <label for="allergy_details">
+                            {% if language == 'ja' %}
+                                アレルギーの詳細:
+                            {% else %}
+                                アレルギーの詳細 / {{ translations.allergy_details }}:
+                            {% endif %}
+                        </label>
                         <textarea id="allergy_details" name="allergy_details"></textarea>
                     </div>
                 </div>
@@ -321,69 +632,133 @@
 
             <!-- Section 9: Other Information -->
             <section class="form-section">
-                <h2>その他の情報 ({{ t.section9 }})</h2>
+                <h2>
+                    {% if language == 'ja' %}
+                        その他の情報
+                    {% else %}
+                        その他の情報 / {{ translations.section9 }}
+                    {% endif %}
+                </h2>
                 
                 <div class="form-group">
-                    <label for="smoking">タバコ吸いますか？ ({{ t.smoking }}):</label>
-                    <select id="smoking" name="smoking" required>
-                        <option value="">選択してください ({{ t.select_option }})</option>
-                        <option value="no">いいえ ({{ t.family_no }})</option>
-                        <option value="yes">はい ({{ t.family_yes }})</option>
-                    </select>
-                    <div id="smoking_details_group" style="display: none;">
-                        <label for="cigarettes_per_day">一日何本吸いますか？ ({{ t.cigarettes_per_day }}):</label>
-                        <input type="number" id="cigarettes_per_day" name="cigarettes_per_day" min="1" max="100">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="drinking">お酒飲みますか？ ({{ t.drinking }}):</label>
+                    <label for="drinking">
+                        {% if language == 'ja' %}
+                            お酒飲みますか？:
+                        {% else %}
+                            お酒飲みますか？ / {{ translations.drinking }}:
+                        {% endif %}
+                    </label>
                     <select id="drinking" name="drinking" required>
-                        <option value="">選択してください ({{ t.select_option }})</option>
-                        <option value="no">いいえ ({{ t.family_no }})</option>
-                        <option value="sometimes">時々 ({{ t.drinking_occasionally }})</option>
-                        <option value="yes">はい ({{ t.family_yes }})</option>
+                        {% if language == 'ja' %}
+                            <option value="">選択してください</option>
+                            <option value="no">いいえ</option>
+                            <option value="sometimes">時々</option>
+                            <option value="yes">はい</option>
+                        {% else %}
+                            <option value="">選択してください / {{ translations.select_option }}</option>
+                            <option value="no">いいえ / {{ translations.no }}</option>
+                            <option value="sometimes">時々 / {{ translations.drinking_occasionally }}</option>
+                            <option value="yes">はい / {{ translations.yes }}</option>
+                        {% endif %}
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="bicycle">自転車乗れますか？ ({{ t.bicycle }}):</label>
+                    <label for="bicycle">
+                        {% if language == 'ja' %}
+                            自転車乗れますか？:
+                        {% else %}
+                            自転車乗  ますか？ / {{ translations.bicycle }}:
+                        {% endif %}
+                    </label>
                     <select id="bicycle" name="bicycle" required>
-                        <option value="">選択してください ({{ t.select_option }})</option>
-                        <option value="no">いいえ ({{ t.family_no }})</option>
-                        <option value="yes">はい ({{ t.family_yes }})</option>
+                        {% if language == 'ja' %}
+                            <option value="">選択してください</option>
+                            <option value="no">いいえ</option>
+                            <option value="yes">はい</option>
+                        {% else %}
+                            <option value="">選択してください / {{ translations.select_option }}</option>
+                            <option value="no">いいえ / {{ translations.no }}</option>
+                            <option value="yes">はい / {{ translations.yes }}</option>
+                        {% endif %}
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="self_pr">自己PR・趣味・特技等 ({{ t.self_pr }}):</label>
+                    <label for="self_pr">
+                        {% if language == 'ja' %}
+                            自己PR・趣味・特技等:
+                        {% else %}
+                            自己PR・趣味・特技等 / {{ translations.self_pr }}:
+                        {% endif %}
+                    </label>
                     <textarea id="self_pr" name="self_pr" required></textarea>
                 </div>
             </section>
 
             <!-- Section 10: Physical Measurements -->
             <section class="form-section">
-                <h2>身体測定 ({{ t.section10 }})</h2>
+                <h2>
+                    {% if language == 'ja' %}
+                        身体測定
+                    {% else %}
+                        身体測定 / {{ translations.section10 }}
+                    {% endif %}
+                </h2>
                 
                 <div class="form-group">
-                    <label for="height">身長 ({{ t.height }}):</label>
-                    <input type="number" id="height" name="height" min="100" max="250" required>
+                    <label for="height">
+                        {% if language == 'ja' %}
+                            身長(cm):
+                        {% else %}
+                            身長(cm) / {{ translations.height }}:
+                        {% endif %}
+                    </label>
+                    <div class="measurement-input">
+                        <input type="number" id="height" name="height" min="100" max="250" required>
+                        <span class="unit">cm</span>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="weight">体重 ({{ t.weight }}):</label>
-                    <input type="number" id="weight" name="weight" min="30" max="200" required>
+                    <label for="weight">
+                        {% if language == 'ja' %}
+                            体重(kg):
+                        {% else %}
+                            体重(kg) / {{ translations.weight }}:
+                        {% endif %}
+                    </label>
+                    <div class="measurement-input">
+                        <input type="number" id="weight" name="weight" min="30" max="200" required>
+                        <span class="unit">kg</span>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="shoe_size">靴のサイズ ({{ t.shoe_size }}):</label>
+                    <label for="shoe_size">
+                        {% if language == 'ja' %}
+                            靴のサイズ:
+                        {% else %}
+                            靴のサイズ / {{ translations.shoe_size }}:
+                        {% endif %}
+                    </label>
                     <input type="number" id="shoe_size" name="shoe_size" min="20" max="35" step="0.5" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="top_size">服上のサイズ ({{ t.top_size }}):</label>
+                    <label for="top_size">
+                        {% if language == 'ja' %}
+                            服上のサイズ:
+                        {% else %}
+                            服上のサイズ / {{ translations.top_size }}:
+                        {% endif %}
+                    </label>
                     <select id="top_size" name="top_size" required>
-                        <option value="">選択してください ({{ t.select_option }})</option>
+                        {% if language == 'ja' %}
+                            <option value="">選択してください</option>
+                        {% else %}
+                            <option value="">選択してください / {{ translations.select_option }}</option>
+                        {% endif %}
                         <option value="XS">XS</option>
                         <option value="S">S</option>
                         <option value="M">M</option>
@@ -394,9 +769,19 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="bottom_size">服下のサイズ ({{ t.bottom_size }}):</label>
+                    <label for="bottom_size">
+                        {% if language == 'ja' %}
+                            服下のサイズ:
+                        {% else %}
+                            服下のサイズ / {{ translations.bottom_size }}:
+                        {% endif %}
+                    </label>
                     <select id="bottom_size" name="bottom_size" required>
-                        <option value="">選択してください ({{ t.select_option }})</option>
+                        {% if language == 'ja' %}
+                            <option value="">選択してください</option>
+                        {% else %}
+                            <option value="">選択してください / {{ translations.select_option }}</option>
+                        {% endif %}
                         <option value="XS">XS</option>
                         <option value="S">S</option>
                         <option value="M">M</option>
@@ -407,9 +792,19 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="blood_type">血液型 ({{ t.blood_type }}):</label>
+                    <label for="blood_type">
+                        {% if language == 'ja' %}
+                            血液型:
+                        {% else %}
+                            血液型 / {{ translations.blood_type }}:
+                        {% endif %}
+                    </label>
                     <select id="blood_type" name="blood_type" required>
-                        <option value="">選択してください ({{ t.select_option }})</option>
+                        {% if language == 'ja' %}
+                            <option value="">選択してください</option>
+                        {% else %}
+                            <option value="">選択してください / {{ translations.select_option }}</option>
+                        {% endif %}
                         <option value="A">A</option>
                         <option value="B">B</option>
                         <option value="O">O</option>
@@ -418,7 +813,46 @@
                 </div>
             </section>
 
-            <button type="submit" class="submit-btn">送信する ({{ t.submit }})</button>
+            <!-- Smoking Section -->
+            <div class="form-group">
+                <label for="smoking">
+                    {% if language == 'ja' %}
+                        喫煙について:
+                    {% else %}
+                        喫煙について / {{ translations.smoking }}:
+                    {% endif %}
+                </label>
+                <select id="smoking" name="smoking" required>
+                    {% if language == 'ja' %}
+                        <option value="">選択してください</option>
+                        <option value="no">吸いません</option>
+                        <option value="yes">吸います</option>
+                    {% else %}
+                        <option value="">選択してください / {{ translations.select_option }}</option>
+                        <option value="no">吸いません / {{ translations.smoking_no }}</option>
+                        <option value="yes">吸います / {{ translations.smoking_yes }}</option>
+                    {% endif %}
+                </select>
+                <div id="smoking_details_group" style="display: none;">
+                    <label for="cigarettes_per_day">
+                        {% if language == 'ja' %}
+                            1日の喫煙本数:
+                        {% else %}
+                            1日の喫煙本数 / {{ translations.cigarettes_per_day }}:
+                        {% endif %}
+                    </label>
+                    <input type="number" id="cigarettes_per_day" name="cigarettes_per_day" min="1" max="100">
+                    <span>本/日</span>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                {% if language == 'ja' %}
+                    送信する
+                {% else %}
+                    送信する / {{ translations.submit }}
+                {% endif %}
+            </button>
         </form>
     </div>
 
@@ -428,6 +862,135 @@
             document.getElementById('family_details_group').style.display = 
                 this.value === 'yes' ? 'block' : 'none';
         });
+
+        // Show/hide medical details
+        document.getElementById('medical_history').addEventListener('change', function() {
+            document.getElementById('medical_details_group').style.display = 
+                this.value === 'yes' ? 'block' : 'none';
+        });
+
+        // Show/hide allergy details
+        document.getElementById('allergies').addEventListener('change', function() {
+            document.getElementById('allergy_details_group').style.display = 
+                this.value === 'yes' ? 'block' : 'none';
+        });
+
+        // Show/hide smoking details
+        document.getElementById('smoking').addEventListener('change', function() {
+            document.getElementById('smoking_details_group').style.display = 
+                this.value === 'yes' ? 'block' : 'none';
+        });
+
+        document.querySelector('form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Create confirmation dialog content
+            const formData = new FormData(this);
+            let confirmationContent = '';
+            for (let [key, value] of formData.entries()) {
+                confirmationContent += `${key}: ${value}\n`;
+            }
+            
+            if (confirm('以下の内容で送信してよろしいですか？\n\n' + confirmationContent)) {
+                try {
+                    const response = await fetch(this.action, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const data = await response.json();
+                    if (data.success) {
+                        const name = document.getElementById('firstname').value;
+                        alert(`${name}様、応募ありがとうございます。\n内容を確認の上、担当者より連絡させていただきます。`);
+                        window.location.href = '/thank-you';
+                    } else {
+                        throw new Error('Submission failed');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('エラーが発生しました。もう一度お試しください。');
+                }
+            }
+        });
     </script>
+
+    <!-- Add your JavaScript file -->
+    <script src="{{ url_for('static', filename='js/form.js') }}"></script>
+
+    <!-- Footer Section -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-company-info">
+                <img src="{{ url_for('static', filename='images/company-logo.png') }}" alt="Company Logo" class="footer-logo">
+                <div class="company-details">
+                    <h3>会社名</h3>
+                    <p>〒000-0000</p>
+                    <p>東京都○○区○○1-1-1</p>
+                    <p>TEL: 03-XXXX-XXXX</p>
+                    <p>FAX: 03-XXXX-XXXX</p>
+                    <p>Email: info@company.co.jp</p>
+                </div>
+            </div>
+            <div class="footer-map">
+                <iframe 
+                    src="GOOGLE_MAPS_EMBED_URL"
+                    width="400" 
+                    height="300" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+            </div>
+            <div class="footer-social">
+                <a href="#" class="social-link"><img src="{{ url_for('static', filename='images/social/facebook.png') }}" alt="Facebook"></a>
+                <a href="#" class="social-link"><img src="{{ url_for('static', filename='images/social/twitter.png') }}" alt="Twitter"></a>
+                <a href="#" class="social-link"><img src="{{ url_for('static', filename='images/social/linkedin.png') }}" alt="LinkedIn"></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Company Name. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <style>
+    .site-footer {
+        background-color: var(--footer-background);
+        color: var(--footer-text);
+        padding: var(--spacing-xl) 0;
+        margin-top: var(--spacing-xl);
+    }
+
+    .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: var(--spacing-lg);
+        padding: 0 var(--spacing-md);
+    }
+
+    .footer-company-info {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+
+    .footer-logo {
+        max-width: 200px;
+    }
+
+    .footer-social {
+        display: flex;
+        gap: var(--spacing-md);
+    }
+
+    .footer-bottom {
+        text-align: center;
+        padding-top: var(--spacing-lg);
+        margin-top: var(--spacing-lg);
+        border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    </style>
 </body>
 </html>
+{% endblock %}
