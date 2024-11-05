@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="{{ language }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>採用応募フォーム ({{ t.title }})</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>採用応募フォーム ({{ t.title }})</h1>
+        <form method="POST" action="{{ url_for('submit') }}">
+            
+            <!-- Section 1: Personal Information -->
+            <section class="form-section">
+                <h2>個人情報 ({{ t.section1 }})</h2>
+                
+                <div class="form-group">
+                    <label for="name">氏名 ({{ t.name }}):</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="furigana">フリガナ ({{ t.furigana }}):</label>
+                    <input type="text" id="furigana" name="furigana" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="romaji">ローマ字 ({{ t.romaji }}):</label>
+                    <input type="text" id="romaji" name="romaji" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="dob">生年月日 ({{ t.dob }}):</label>
+                    <input type="date" id="dob" name="dob" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="age">年齢 ({{ t.age }}):</label>
+                    <input type="number" id="age" name="age" min="16" max="100" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="gender">性別 ({{ t.gender }}):</label>
+                    <select id="gender" name="gender" required>
+                        <option value="">選択してください ({{ t.select_option }})</option>
+                        <option value="male">男性 ({{ t.gender_male }})</option>
+                        <option value="female">女性 ({{ t.gender_female }})</option>
+                        <option value="other">その他 ({{ t.gender_other }})</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="family_in_japan">日本在住の家族 ({{ t.family_jp }}):</label>
+                    <select id="family_in_japan" name="family_in_japan" required>
+                        <option value="">選択してください ({{ t.select_option }})</option>
+                        <option value="no">いいえ ({{ t.family_no }})</option>
+                        <option value="yes">はい ({{ t.family_yes }})</option>
+                    </select>
+                    <div id="family_details_group" style="display: none;">
+                        <label for="family_details">家族の詳細 ({{ t.family_details }}):</label>
+                        <textarea id="family_details" name="family_details"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="nearest_station">最寄り駅 ({{ t.nearest_station }}):</label>
+                    <input type="text" id="nearest_station" name="nearest_station" required>
+                </div>
+            </section>
+
+            <!-- Section 2: Contact Information -->
+            <section class="form-section">
+                <h2>連絡先 ({{ t.section2 }})</h2>
+                
+                <div class="form-group">
+                    <label for="address">住所 ({{ t.address }}):</label>
+                    <input type="text" id="address" name="address" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">携帯電話 ({{ t.phone }}):</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">メールアドレス ({{ t.email }}):</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="social_media">SNS ({{ t.social_media }}):</label>
+                    <input type="text" id="social_media" name="social_media">
+                </div>
+            </section>
+
+            <!-- Section 3: Interview Preferences -->
+            <section class="form-section">
+                <h2>面接希望日 ({{ t.section3 }})</h2>
+                
+                <div class="interview-preferences">
+                    <div class="form-group">
+                        <label for="preferred_interview_date1">第一希望日 ({{ t.interview_date1 }}):</label>
+                        <input type="date" id="preferred_interview_date1" name="preferred_interview_date1" required>
+                        <select name="preferred_time1" required>
+                            <option value="">選択してください ({{ t.select_option }})</option>
+                            <option value="morning">午前 ({{ t.time_morning }})</option>
+                            <option value="afternoon">午後 ({{ t.time_afternoon }})</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="preferred_interview_date2">第二希望日 ({{ t.interview_date2 }}):</label>
+                        <input type="date" id="preferred_interview_date2" name="preferred_interview_date2" required>
+                        <select name="preferred_time2" required>
+                            <option value="">選択してください ({{ t.select_option }})</option>
+                            <option value="morning">午前 ({{ t.time_morning }})</option>
+                            <option value="afternoon">午後 ({{ t.time_afternoon }})</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="preferred_interview_date3">第三希望日 ({{ t.interview_date3 }}):</label>
+                        <input type="date" id="preferred_interview_date3" name="preferred_interview_date3" required>
+                        <select name="preferred_time3" required>
+                            <option value="">選択してください ({{ t.select_option }})</option>
+                            <option value="morning">午前 ({{ t.time_morning }})</option>
+                            <option value="afternoon">午後 ({{ t.time_afternoon }})</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 4: Education -->
+            <section class="form-section">
+                <h2>学歴 ({{ t.section4 }})</h2>
+                
+                <div class="education-entry">
+                    <div class="form-group">
+                        <label for="education_start">入学年月 ({{ t.education_start }}):</label>
+                        <input type="month" id="education_start" name="education_start" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="education_end">卒業年月 ({{ t.education_end }}):</label>
+                        <input type="month" id="education_end" name="education_end" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="school_name">学校名 ({{ t.school_name }}):</label>
+                        <input type="text" id="school_name" name="school_name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="department">学部 ({{ t.department }}):</label>
+                        <input type="text" id="department" name="department" required>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 5: Work Experience -->
+            <section class="form-section">
+                <h2>職歴 ({{ t.section5 }})</h2>
+                
+                <div class="work-entry">
+                    <div class="form-group">
+                        <label for="work_start">入社年月 ({{ t.work_start }}):</label>
+                        <input type="month" id="work_start" name="work_start" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="work_end">退社年月 ({{ t.work_end }}):</label>
+                        <input type="month" id="work_end" name="work_end" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="company_name">会社名 ({{ t.company_name }}):</label>
+                        <input type="text" id="company_name" name="company_name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="job_description">仕事内容 ({{ t.job_description }}):</label>
+                        <textarea id="job_description" name="job_description" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reason_leaving">退社理由 ({{ t.reason_leaving }}):</label>
+                        <textarea id="reason_leaving" name="reason_leaving" required></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 6: Qualifications -->
+            <section class="form-section">
+                <h2>資格 ({{ t.section6 }})</h2>
+                
+                <div class="form-group">
+                    <label for="jp_license">日本運転免許 ({{ t.jp_license }}):</label>
+                    <select id="jp_license" name="jp_license" required>
+                        <option value="">選択してください ({{ t.select_option }})</option>
+                        <option value="no">いいえ ({{ t.family_no }})</option>
+                        <option value="yes">はい ({{ t.family_yes }})</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="mn_license">モンゴル運転免許 ({{ t.mn_license }}):</label>
+                    <select id="mn_license" name="mn_license" required>
+                        <option value="">選択してください ({{ t.select_option }})</option>
+                        <option value="no">いいえ ({{ t.family_no }})</option>
+                        <option value="yes">はい ({{ t.family_yes }})</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="vn_license">ベトナム運転免許 ({{ t.vn_license }}):</label>
+                    <select id="vn_license" name="vn_license" required>
+                        <option value="">選択してください ({{ t.select_option }})</option>
+                        <option value="no">いいえ ({{ t.family_no }})</option>
+                        <option value="yes">はい ({{ t.family_yes }})</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="japanese_level">日本語能力 ({{ t.japanese_level }}):</label>
+                    <select id="japanese_level" name="japanese_level" required>
+                        <option value="">選択してください ({{ t.select_level }})</option>
+                        <option value="N1">N1</option>
+                        <option value="N2">N2</option>
+                        <option value="N3">N3</option>
+                        <option value="N4">N4</option>
+                        <option value="N5">N5</option>
+                    </select>
+                </div>
+            </section>
+
+            <!-- Section 7: Visa Status -->
+            <section class="form-section">
+                <h2>在留資格 ({{ t.section7 }})</h2>
+                
+                <div class="form-group">
+                    <label for="visa_type">在留資格種類 ({{ t.visa_type }}):</label>
+                    <select id="visa_type" name="visa_type" required>
+                        <option value="">選択してください ({{ t.select_option }})</option>
+                        <option value="permanent">永住者</option>
+                        <option value="work">就労ビザ</option>
+                        <option value="student">留学</option>
+                        <option value="dependent">家族滞在</option>
+                        <option value="other">その他</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="visa_expiry">在留期限 ({{ t.visa_expiry }}):</label>
+                    <input type="date" id="visa_expiry" name="visa_expiry" required>
+                </div>
+            </section>
+
+            <!-- Section 8: Health -->
+            <section class="form-section">
+                <h2>健康状態 ({{ t.section8 }})</h2>
+                
+                <div class="form-group">
+                    <label for="medical_history">今までにケガや病気、手術した事ありますか？ ({{ t.medical_history }}):</label>
+                    <select id="medical_history" name="medical_history" required>
+                        <option value="">選択してください ({{ t.select_option }})</option>
+                        <option value="no">いいえ ({{ t.family_no }})</option>
+                        <option value="yes">はい ({{ t.family_yes }})</option>
+                    </select>
+                    <div id="medical_details_group" style="display: none;">
+                        <label for="medical_details">詳細 ({{ t.medical_details }}):</label>
+                        <textarea id="medical_details" name="medical_details"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="allergies">アレルギー ({{ t.allergies }}):</label>
+                    <select id="allergies" name="allergies" required>
+                        <option value="">選択してください ({{ t.select_option }})</option>
+                        <option value="no">いいえ ({{ t.family_no }})</option>
+                        <option value="yes">はい ({{ t.family_yes }})</option>
+                    </select>
+                    <div id="allergy_details_group" style="display: none;">
+                        <label for="allergy_details">アレルギーの詳細 ({{ t.allergy_details }}):</label>
+                        <textarea id="allergy_details" name="allergy_details"></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 9: Other Information -->
+            <section class="form-section">
+                <h2>その他の情報 ({{ t.section9 }})</h2>
+                
+                <div class="form-group">
+                    <label for="smoking">タバコ吸いますか？ ({{ t.smoking }}):</label>
+                    <select id="smoking" name="smoking" required>
+                        <option value="">選択してください ({{ t.select_option }})</option>
+                        <option value="no">いいえ ({{ t.family_no }})</option>
+                        <option value="yes">はい ({{ t.family_yes }})</option>
+                    </select>
+                    <div id="smoking_details_group" style="display: none;">
+                        <label for="cigarettes_per_day">一日何本吸いますか？ ({{ t.cigarettes_per_day }}):</label>
+                        <input type="number" id="cigarettes_per_day" name="cigarettes_per_day" min="1" max="100">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="drinking">お酒飲みますか？ ({{ t.drinking }}):</label>
+                    <select id="drinking" name="drinking" required>
+                        <option value="">選択してください ({{ t.select_option }})</option>
+                        <option value="no">いいえ ({{ t.family_no }})</option>
+                        <option value="sometimes">時々 ({{ t.drinking_occasionally }})</option>
+                        <option value="yes">はい ({{ t.family_yes }})</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="bicycle">自転車乗れますか？ ({{ t.bicycle }}):</label>
+                    <select id="bicycle" name="bicycle" required>
+                        <option value="">選択してください ({{ t.select_option }})</option>
+                        <option value="no">いいえ ({{ t.family_no }})</option>
+                        <option value="yes">はい ({{ t.family_yes }})</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="self_pr">自己PR・趣味・特技等 ({{ t.self_pr }}):</label>
+                    <textarea id="self_pr" name="self_pr" required></textarea>
+                </div>
+            </section>
+
+            <!-- Section 10: Physical Measurements -->
+            <section class="form-section">
+                <h2>身体測定 ({{ t.section10 }})</h2>
+                
+                <div class="form-group">
+                    <label for="height">身長 ({{ t.height }}):</label>
+                    <input type="number" id="height" name="height" min="100" max="250" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="weight">体重 ({{ t.weight }}):</label>
+                    <input type="number" id="weight" name="weight" min="30" max="200" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="shoe_size">靴のサイズ ({{ t.shoe_size }}):</label>
+                    <input type="number" id="shoe_size" name="shoe_size" min="20" max="35" step="0.5" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="top_size">服上のサイズ ({{ t.top_size }}):</label>
+                    <select id="top_size" name="top_size" required>
+                        <option value="">選択してください ({{ t.select_option }})</option>
+                        <option value="XS">XS</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                        <option value="XXL">XXL</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="bottom_size">服下のサイズ ({{ t.bottom_size }}):</label>
+                    <select id="bottom_size" name="bottom_size" required>
+                        <option value="">選択してください ({{ t.select_option }})</option>
+                        <option value="XS">XS</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                        <option value="XXL">XXL</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="blood_type">血液型 ({{ t.blood_type }}):</label>
+                    <select id="blood_type" name="blood_type" required>
+                        <option value="">選択してください ({{ t.select_option }})</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="O">O</option>
+                        <option value="AB">AB</option>
+                    </select>
+                </div>
+            </section>
+
+            <button type="submit" class="submit-btn">送信する ({{ t.submit }})</button>
+        </form>
+    </div>
+
+    <script>
+        // Show/hide family details
+        document.getElementById('family_in_japan').addEventListener('change', function() {
+            document.getElementById('family_details_group').style.display = 
+                this.value === 'yes' ? 'block' : 'none';
+        });
+    </script>
+</body>
+</html>

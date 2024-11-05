@@ -1,0 +1,10 @@
+{
+    "title": "Job Application Form",
+    "section1": "Personal Information",
+    "name": "Full Name",
+    "gender": "Gender",
+    "gender_male": "Male",
+    "gender_female": "Female",
+    "gender_other": "Other",
+    "select_option": "Please select"
+} 

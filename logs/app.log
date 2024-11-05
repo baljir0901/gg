@@ -1,0 +1,31 @@
+2024-11-05 00:28:06,851 INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2024-11-05 00:28:06,852 INFO: [33mPress CTRL+C to quit[0m
+2024-11-05 00:28:06,853 INFO:  * Restarting with stat
+2024-11-05 00:28:07,468 WARNING:  * Debugger is active!
+2024-11-05 00:28:07,472 INFO:  * Debugger PIN: 105-848-727
+2024-11-05 00:28:46,050 INFO:  * Detected change in 'C:\\Users\\balji\\OneDrive\\Desktop\\GG\\app.py', reloading
+2024-11-05 00:28:46,125 INFO:  * Restarting with stat
+2024-11-05 00:28:46,741 WARNING:  * Debugger is active!
+2024-11-05 00:28:46,746 INFO:  * Debugger PIN: 105-848-727
+2024-11-05 00:30:17,717 INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2024-11-05 00:30:17,717 INFO: [33mPress CTRL+C to quit[0m
+2024-11-05 00:30:17,717 INFO:  * Restarting with stat
+2024-11-05 00:30:18,311 WARNING:  * Debugger is active!
+2024-11-05 00:30:18,311 INFO:  * Debugger PIN: 105-848-727
+2024-11-05 00:30:55,578 INFO:  * Detected change in 'C:\\Users\\balji\\OneDrive\\Desktop\\GG\\app.py', reloading
+2024-11-05 00:30:55,641 INFO:  * Restarting with stat
+2024-11-05 00:30:56,313 WARNING:  * Debugger is active!
+2024-11-05 00:30:56,313 INFO:  * Debugger PIN: 105-848-727
+2024-11-05 00:32:11,156 INFO:  * Detected change in 'C:\\Users\\balji\\OneDrive\\Desktop\\GG\\app.py', reloading
+2024-11-05 00:32:11,238 INFO:  * Restarting with stat
+2024-11-05 00:32:12,142 WARNING:  * Debugger is active!
+2024-11-05 00:32:12,146 INFO:  * Debugger PIN: 105-848-727
+2024-11-05 00:32:30,235 INFO: 127.0.0.1 - - [05/Nov/2024 00:32:30] "GET / HTTP/1.1" 200 -
+2024-11-05 00:32:30,268 INFO: 127.0.0.1 - - [05/Nov/2024 00:32:30] "GET /static/styles.css HTTP/1.1" 200 -
+2024-11-05 00:32:31,048 INFO: 127.0.0.1 - - [05/Nov/2024 00:32:31] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2024-11-05 00:33:30,117 ERROR: Email sending failed: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 98e67ed59e1d1-2e92fbdfc25sm9904193a91.42 - gsmtp')
+2024-11-05 00:33:30,118 INFO: 127.0.0.1 - - [05/Nov/2024 00:33:30] "[32mPOST /submit HTTP/1.1[0m" 302 -
+2024-11-05 00:33:30,126 INFO: 127.0.0.1 - - [05/Nov/2024 00:33:30] "GET / HTTP/1.1" 200 -
+2024-11-05 00:33:30,155 INFO: 127.0.0.1 - - [05/Nov/2024 00:33:30] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
