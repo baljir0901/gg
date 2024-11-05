@@ -8,16 +8,48 @@
 </head>
 <body>
     <div class="container">
-        <h1>採用応募フォーム ({{ t.title }})</h1>
+        {% if language == 'ja' %}
+            <h1>採用応募フォーム</h1>
+        {% else %}
+            <h1>{{ translations['title'] }}</h1>
+        {% endif %}
         <form method="POST" action="{{ url_for('submit') }}">
             
             <!-- Section 1: Personal Information -->
             <section class="form-section">
-                <h2>個人情報 ({{ t.section1 }})</h2>
+                {% if language == 'ja' %}
+                    <h2>個人情報</h2>
+                {% else %}
+                    <h2>{{ translations['section1'] }}</h2>
+                {% endif %}
                 
                 <div class="form-group">
-                    <label for="name">氏名 ({{ t.name }}):</label>
+                    {% if language == 'ja' %}
+                        <label for="name">氏名:</label>
+                    {% else %}
+                        <label for="name">{{ translations['name'] }}:</label>
+                    {% endif %}
                     <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    {% if language == 'ja' %}
+                        <label for="gender">性別:</label>
+                        <select id="gender" name="gender" required>
+                            <option value="">選択してください</option>
+                            <option value="male">男性</option>
+                            <option value="female">女性</option>
+                            <option value="other">その他</option>
+                        </select>
+                    {% else %}
+                        <label for="gender">{{ translations['gender'] }}:</label>
+                        <select id="gender" name="gender" required>
+                            <option value="">選択してください ({{ t.select_option }})</option>
+                            <option value="male">男性 ({{ t.gender_male }})</option>
+                            <option value="female">女性 ({{ t.gender_female }})</option>
+                            <option value="other">その他 ({{ t.gender_other }})</option>
+                        </select>
+                    {% endif %}
                 </div>
 
                 <div class="form-group">
@@ -192,7 +224,7 @@
 
             <!-- Section 6: Qualifications -->
             <section class="form-section">
-                <h2>資格 ({{ t.section6 }})</h2>
+                <h2>資 ({{ t.section6 }})</h2>
                 
                 <div class="form-group">
                     <label for="jp_license">日本運転免許 ({{ t.jp_license }}):</label>

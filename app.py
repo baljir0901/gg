@@ -22,17 +22,17 @@ def load_translations(lang):
 def language_select():
     return render_template('language_select.html')
 
-@app.route('/form/<language>')
-def form(language):
-    if language not in ['ja', 'en', 'mn', 'vi']:
-        return redirect(url_for('language_select'))
+@app.route('/form/<lang>')
+def form(lang):
+    if lang not in ['ja', 'en', 'mn', 'vi']:
+        return redirect(url_for('form', lang='ja'))
+    g.lang = lang
     
-    # Load translations for the selected language
-    translations = load_translations(language)
-    session['language'] = language
+    # Load translations directly from JSON
+    with open(f'translations/{lang}.json', 'r', encoding='utf-8') as file:
+        translations = json.load(file)
     
-    # Pass translations to template as 't'
-    return render_template('form.html', language=language, t=translations)
+    return render_template('form.html', translations=translations)
 
 @app.route('/submit', methods=['POST'])
 def submit():
@@ -51,12 +51,12 @@ def submit():
         send_email_with_excel(form_data)
         
         flash("Form submitted successfully!", 'success')
-        return redirect(url_for('form', language=session.get('language', Config.DEFAULT_LANGUAGE)))
+        return redirect(url_for('form', lang=session.get('language', Config.DEFAULT_LANGUAGE)))
         
     except Exception as e:
         print(f"Error: {e}")
         flash("An error occurred. Please try again.", 'error')
-        return redirect(url_for('form', language=session.get('language', Config.DEFAULT_LANGUAGE)))
+        return redirect(url_for('form', lang=session.get('language', Config.DEFAULT_LANGUAGE)))
 
 if __name__ == '__main__':
     # Create translations directory if it doesn't exist
